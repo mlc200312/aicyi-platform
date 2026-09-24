@@ -4,11 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- aicyi 脚手架：插件与公共依赖管理（Java 17 / Lombok / MapStruct 注解处理器 / 构建护栏） -->
+    <!-- 平台聚合父 POM aicyi-platform：统一 common 依赖 + Spring Cloud / Alibaba / framework BOM 版本管理 -->
     <parent>
-        <groupId>io.github.aicyi.base</groupId>
-        <artifactId>aicyi-base-starter-parent</artifactId>
+        <groupId>io.github.aicyi.cloud</groupId>
+        <artifactId>aicyi-platform</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>io.github.aicyi.admin</groupId>
@@ -18,11 +19,6 @@
     <name>aicyi admin</name>
     <description>aicyi admin service</description>
 
-    <properties>
-        <spring-cloud.version>2023.0.1</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
-    </properties>
-
     <modules>
         <module>aicyi-admin-domain</module>
         <module>aicyi-admin-dao</module>
@@ -31,71 +27,11 @@
         <module>aicyi-admin-boot</module>
     </modules>
 
-    <dependencies>
-        <!-- 公共基础库：统一 Result / BaseBean / 异常体系 -->
-        <dependency>
-            <groupId>io.github.aicyi.common</groupId>
-            <artifactId>aicyi-common-model</artifactId>
-        </dependency>
-
-        <!-- IJWTInfo 主体接口（Token 体系） -->
-        <dependency>
-            <groupId>io.github.aicyi.common</groupId>
-            <artifactId>aicyi-common-core</artifactId>
-        </dependency>
-
-        <!-- StringEnumType Jackson 反序列化器 -->
-        <dependency>
-            <groupId>io.github.aicyi.common</groupId>
-            <artifactId>aicyi-common-util</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-
-        <!-- @EnableAspectJAutoProxy 运行期依赖 -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-    </dependencies>
+    <!-- 公共依赖（common-model/core/util、lombok、aspectj、spring-boot-starter）已由父 POM aicyi-platform 统一继承提供 -->
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>io.github.aicyi.framework</groupId>
-                <artifactId>aicyi-framework</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- 本工程模块 -->
+            <!-- 本工程子模块版本（BOM 由父 POM aicyi-platform 统一管理） -->
             <dependency>
                 <groupId>io.github.aicyi.admin</groupId>
                 <artifactId>aicyi-admin-domain</artifactId>

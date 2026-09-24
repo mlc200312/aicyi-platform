@@ -72,12 +72,30 @@
         </dependency>
     </dependencies>
 
+    <!-- 统一依赖版本管理：子模块（admin/auth/gateway/log/message/work-order）继承本 POM 即获得，无需重复声明 -->
     <dependencyManagement>
         <dependencies>
+            <!-- aicyi 脚手架聚合 BOM：传递管理 common / infra / middleware / framework 全部层级 -->
             <dependency>
                 <groupId>io.github.aicyi.framework</groupId>
                 <artifactId>aicyi-framework</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring Cloud 依赖管理（Gateway / OpenFeign / LoadBalancer / bootstrap） -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring Cloud Alibaba 依赖管理（Nacos 注册与配置中心 / Sentinel） -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
