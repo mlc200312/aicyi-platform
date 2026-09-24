@@ -17,7 +17,7 @@ import java.util.List;
 public class UserResp extends BaseBean implements VoBean {
 
     @Schema(description = "用户 ID", example = "1")
-    private Long id;
+    private String id;
 
     @Schema(description = "用户名", example = "zhangsan")
     private String username;

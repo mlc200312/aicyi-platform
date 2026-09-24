@@ -110,6 +110,12 @@
                 <artifactId>aicyi-work-order-client</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
+            <!-- 工单领域事件契约（跨服务共享：work-order 发布 / message 订阅） -->
+            <dependency>
+                <groupId>io.github.aicyi.workorder</groupId>
+                <artifactId>aicyi-work-order-event</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
             <dependency>
                 <groupId>io.github.aicyi.log</groupId>
                 <artifactId>aicyi-log-client</artifactId>

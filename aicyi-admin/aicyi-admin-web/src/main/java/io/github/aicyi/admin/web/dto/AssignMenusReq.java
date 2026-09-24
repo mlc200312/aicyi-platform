@@ -20,7 +20,7 @@ public class AssignMenusReq extends BaseBean implements DtoBean {
     /**
      * 菜单 ID 列表（含按钮；可为空数组表示清空）
      */
-    @Schema(description = "菜单 ID 列表（含按钮；空数组表示清空）", example = "[1, 2, 3]", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "菜单 ID 列表（含按钮；空数组表示清空）", example = "[\"1001\", \"1002\"]", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotEmpty(message = "菜单列表不能为空")
-    private List<Long> menuIds;
+    private List<String> menuIds;
 }

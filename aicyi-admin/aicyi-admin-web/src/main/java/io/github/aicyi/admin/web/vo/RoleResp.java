@@ -15,7 +15,7 @@ import lombok.Setter;
 public class RoleResp extends BaseBean implements VoBean {
 
     @Schema(description = "角色 ID", example = "1")
-    private Long id;
+    private String id;
 
     @Schema(description = "角色名称", example = "运营")
     private String roleName;

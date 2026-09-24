@@ -15,10 +15,10 @@ import lombok.Setter;
 public class UserPermissionResp extends BaseBean implements VoBean {
 
     @Schema(description = "授权记录 ID", example = "1")
-    private Long id;
+    private String id;
 
     @Schema(description = "用户 ID", example = "1")
-    private Long userId;
+    private String userId;
 
     @Schema(description = "权限标识", example = "system:user:add")
     private String permCode;

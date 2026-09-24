@@ -18,10 +18,10 @@ import java.util.List;
 public class MenuResp extends BaseBean implements VoBean {
 
     @Schema(description = "菜单 ID", example = "1001")
-    private Long id;
+    private String id;
 
     @Schema(description = "父级 ID（0 = 顶级）", example = "0")
-    private Long parentId;
+    private String parentId;
 
     @Schema(description = "菜单名称", example = "用户管理")
     private String menuName;

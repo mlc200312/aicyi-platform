@@ -21,5 +21,5 @@ public class UserBatchDeleteReq extends BaseBean implements DtoBean {
     @Schema(description = "待删除用户 ID 集合（admin 账号自动跳过）", example = "[2,3]")
     @NotEmpty(message = "用户 ID 集合不能为空")
     @Size(max = 100, message = "单次最多删除 100 个用户")
-    private List<Long> ids;
+    private List<String> ids;
 }

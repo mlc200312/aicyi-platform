@@ -20,7 +20,7 @@ public class AssignRolesReq extends BaseBean implements DtoBean {
     /**
      * 角色 ID 列表
      */
-    @Schema(description = "角色 ID 列表", example = "[1, 2]", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "角色 ID 列表", example = "[\"1\", \"2\"]", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotEmpty(message = "角色列表不能为空")
-    private List<Long> roleIds;
+    private List<String> roleIds;
 }

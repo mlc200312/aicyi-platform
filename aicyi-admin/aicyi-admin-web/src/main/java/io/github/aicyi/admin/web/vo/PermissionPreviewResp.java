@@ -18,7 +18,7 @@ import java.util.Set;
 public class PermissionPreviewResp extends BaseBean implements VoBean {
 
     @Schema(description = "用户 ID", example = "1")
-    private Long userId;
+    private String userId;
 
     @Schema(description = "有效权限标识集合（角色权限与单独授权合并后）")
     private Set<String> permissions;
@@ -28,7 +28,7 @@ public class PermissionPreviewResp extends BaseBean implements VoBean {
 
     public static PermissionPreviewResp of(Long userId, Set<String> permissions, List<UserPermissionResp> userPermissions) {
         PermissionPreviewResp vo = new PermissionPreviewResp();
-        vo.setUserId(userId);
+        vo.setUserId(String.valueOf(userId));
         vo.setPermissions(permissions);
         vo.setUserPermissions(userPermissions);
         return vo;

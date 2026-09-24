@@ -201,7 +201,7 @@ public class RoleController {
     public Result<Void> assignMenus(
             @Parameter(description = "角色 ID", example = "1", required = true) @PathVariable Long id,
             @Valid @RequestBody AssignMenusReq req) {
-        roleManageService.assignMenus(id, req.getMenuIds());
+        roleManageService.assignMenus(id, req.getMenuIds().stream().map(Long::valueOf).toList());
         return Result.success();
     }
 

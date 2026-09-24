@@ -271,7 +271,7 @@ public class UserController {
     public Result<Void> assignRoles(
             @Parameter(description = "用户 ID", example = "1", required = true) @PathVariable Long id,
             @Valid @RequestBody AssignRolesReq req) {
-        userManageService.assignRoles(id, req.getRoleIds());
+        userManageService.assignRoles(id, req.getRoleIds().stream().map(Long::valueOf).toList());
         return Result.success();
     }
 

@@ -19,15 +19,15 @@ public class MenuSaveReq extends BaseBean implements DtoBean {
     /**
      * 菜单 ID（编辑时必填）
      */
-    @Schema(description = "菜单 ID（编辑时必填）", example = "1001")
-    private Long id;
+    @Schema(description = "菜单 ID（编辑时必填）", example = "\"1001\"")
+    private String id;
 
     /**
      * 父级 ID（顶级为 0）
      */
     @Schema(description = "父级 ID（顶级为 0）", example = "0", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "父级菜单不能为空")
-    private Long parentId;
+    private String parentId;
 
     /**
      * 菜单名称
