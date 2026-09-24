@@ -1,49 +1,28 @@
+# =====================================================================
+# application.yml —— aicyi-admin：跨环境通用配置（环境差异见 application-{dev,test,prod}.yml）
+# =====================================================================
 server:
-  # RBAC 权限管理微服务独立端口（gateway 18000 / admin(单体) 18080 / work-order 18090 / log 18091 / message 18092 / auth 18093）
-  port: ${SERVER_PORT:18094}
+  # 统一入口 gateway 18000：auth 18090 / admin 18091 / log 18092 / message 18093 / work-order 18094
+  port: ${SERVER_PORT:18091}
 
 spring:
   application:
     name: aicyi-admin
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:aicyi_platform}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:root}
-
-  data:
-    redis:
-      # 显式使用 127.0.0.1：macOS 下 localhost 可能优先解析 IPv6(::1)，导致 Docker 映射的 IPv4 端口连接失败
-      host: ${REDIS_HOST:127.0.0.1}
-      port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD:root}
-
-  sql:
-    init:
-      # 每次启动执行 schema.sql（DDL 全部 IF NOT EXISTS 幂等），确保 RBAC 表结构存在
-      mode: always
-      schema-locations: classpath:db/schema.sql
-      continue-on-error: false
-
 aicyi:
   # ===================== Token 框架（RefreshToken 注册表：管理侧踢会话能力） =====================
-  # 登录签发已由 aicyi-auth 认证中心接管，本服务不再服务内校验令牌（启动类 enableAuth=false，
-  # 身份由网关统一校验后 X-User-Id / X-Username 透传）；此处装配 Token Bean 仅为
-  # SessionRevoker 吊销指定用户全部会话（删除 / 禁用 / 重置密码后踢下线）。
-  # 关键互通约束：secret-key / issuer / subject 必须与 aicyi-auth 完全一致，
-  # 共用同一 Redis token 注册表实现跨服务吊销，且网关现有验签配置无需改动。
+  # 身份由网关统一校验后 X-User-Id / X-Username 透传；本服务装配 Token Bean 仅用于
+  # SessionRevoker 吊销会话（删除/禁用/重置密码后踢下线）。
+  # 互通约束：secret-key / issuer / subject 必须与 aicyi-auth 一致，共用 Redis token 注册表。
   token:
     enabled: true
-    # 开发环境密钥（≥32 字节）；生产必须通过环境变量 AICYI_TOKEN_SECRET 注入，禁止入库
     secret-key: ${AICYI_TOKEN_SECRET:aicyi-cloud-admin-dev-secret-key-please-change-2026}
     issuer: aicyi-cloud-admin
     subject: admin-token
     # principal 类型：AccessToken 载荷（实现 JwtInfo）
     principal-type: io.github.aicyi.admin.domain.bo.LoginUser
-    # AccessToken 2 小时
+    # AccessToken 2 小时 / RefreshToken 30 天
     access-token-ttl: 7200
-    # RefreshToken 30 天
     refresh-token-ttl: 2592000
     # 单点会话控制：与 aicyi-auth 签发侧保持一致
     multi-token-allowed: false
@@ -54,12 +33,11 @@ aicyi:
       - username
 
   logging:
-    # 日志文件路径：默认落在启动工作目录 logs/ 下；生产通过环境变量 LOG_PATH 注入绝对路径覆盖
+    # 日志文件路径：默认启动工作目录 logs/ 下；生产经 LOG_PATH 注入绝对路径
     path: ${LOG_PATH:logs}
 
   operate-log:
-    # 操作日志审计开关（OperateLogAutoConfiguration 装配条件：aicyi.operate-log.enabled=true）
-    # @OperLog 注解采集，db 存储写 sys_oper_log（与其余微服务同库口径）
+    # 操作日志审计：@OperLog 注解采集，db 存储写 sys_oper_log
     enabled: true
     storage:
       type: db
@@ -86,11 +64,8 @@ aicyi:
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
-    # 枚举统一按 code 映射：业务实体字段显式 @TableField(typeHandler = IEnumTypeHandler)，
-    # 全局默认处理器兜底
+    # 枚举统一按 code 映射：业务实体字段显式 @TableField(typeHandler = IEnumTypeHandler)，全局默认处理器兜底
     default-enum-type-handler: io.github.aicyi.infra.mybatisplus.handlers.IEnumTypeHandler
-    # 打印sql日志，开发环境开启，生产关闭
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 springdoc:
   api-docs:

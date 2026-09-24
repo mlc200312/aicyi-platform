@@ -24,7 +24,7 @@ spring:
         namespace: ${NACOS_NAMESPACE:dev}
         group: DEFAULT_GROUP
         file-extension: yaml
-        # 共享中间件地址/密钥策略等跨环境一致配置
+        # 中间件连接由 Nacos 共享配置统一管理（datasource/redis/rabbitmq，各环境 namespace 内维护）
         shared-configs:
           - data-id: aicyi-datasource.yml
             group: DEFAULT_GROUP

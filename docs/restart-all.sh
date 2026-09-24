@@ -3,11 +3,11 @@
 # restart-all.sh — 一键重启 aicyi 微服务全家桶（含单体并行期 + 前端）
 #
 #   覆盖服务（端口）：
-#     aicyi-admin          18094  RBAC 权限管理微服务（替代单体承接 /api/system/**）
-#     aicyi-auth         18093  认证授权中心
-#     aicyi-work-order   18090  工单中心
-#     aicyi-log          18091  审计日志（MQ 消费）
-#     aicyi-message      18092  消息通知（MQ 消费）
+#     aicyi-auth           18090  认证授权中心
+#     aicyi-admin          18091  RBAC 权限管理微服务（替代单体承接 /api/system/**）
+#     aicyi-log          18092  审计日志（MQ 消费）
+#     aicyi-message      18093  消息通知（MQ 消费）
+#     aicyi-work-order   18094  工单中心
 #     aicyi-gateway      18000  统一入口（前端唯一访问点）
 #     aicyi-platform-ui  5173   Vite 前端
 #
@@ -42,11 +42,11 @@ JAVA_BIN="${JAVA_BIN:-java}"
 # 服务定义：key|端口|工作目录(相对 ROOT)|jar(相对 ROOT)|进程匹配特征
 # 顺序即启动顺序；停止时逆序。gateway 依赖下游注册但 lb 懒解析，置于后端最后。
 SERVICES=(
-  "admin|18094|aicyi-platform/aicyi-admin|aicyi-platform/aicyi-admin/aicyi-admin-boot/target/aicyi-admin-boot-0.0.1-SNAPSHOT.jar|aicyi-admin-boot-.*\.jar"
-  "auth|18093|aicyi-platform/aicyi-auth|aicyi-platform/aicyi-auth/aicyi-auth-boot/target/aicyi-auth-boot-0.0.1-SNAPSHOT.jar|aicyi-auth-boot-.*\.jar"
-  "work-order|18090|aicyi-platform/aicyi-work-order|aicyi-platform/aicyi-work-order/aicyi-work-order-boot/target/aicyi-work-order-boot-0.0.1-SNAPSHOT.jar|aicyi-work-order-boot-.*\.jar"
-  "log|18091|aicyi-platform/aicyi-log|aicyi-platform/aicyi-log/aicyi-log-boot/target/aicyi-log-boot-0.0.1-SNAPSHOT.jar|aicyi-log-boot-.*\.jar"
-  "message|18092|aicyi-platform/aicyi-message|aicyi-platform/aicyi-message/aicyi-message-boot/target/aicyi-message-boot-0.0.1-SNAPSHOT.jar|aicyi-message-boot-.*\.jar"
+  "auth|18090|aicyi-platform/aicyi-auth|aicyi-platform/aicyi-auth/aicyi-auth-boot/target/aicyi-auth-boot-0.0.1-SNAPSHOT.jar|aicyi-auth-boot-.*\.jar"
+  "admin|18091|aicyi-platform/aicyi-admin|aicyi-platform/aicyi-admin/aicyi-admin-boot/target/aicyi-admin-boot-0.0.1-SNAPSHOT.jar|aicyi-admin-boot-.*\.jar"
+  "log|18092|aicyi-platform/aicyi-log|aicyi-platform/aicyi-log/aicyi-log-boot/target/aicyi-log-boot-0.0.1-SNAPSHOT.jar|aicyi-log-boot-.*\.jar"
+  "message|18093|aicyi-platform/aicyi-message|aicyi-platform/aicyi-message/aicyi-message-boot/target/aicyi-message-boot-0.0.1-SNAPSHOT.jar|aicyi-message-boot-.*\.jar"
+  "work-order|18094|aicyi-platform/aicyi-work-order|aicyi-platform/aicyi-work-order/aicyi-work-order-boot/target/aicyi-work-order-boot-0.0.1-SNAPSHOT.jar|aicyi-work-order-boot-.*\.jar"
   "gateway|18000|aicyi-platform/aicyi-gateway|aicyi-platform/aicyi-gateway/target/aicyi-gateway-0.0.1-SNAPSHOT.jar|aicyi-gateway-0\.0\.1-SNAPSHOT\.jar"
 )
 UI_PORT=5173

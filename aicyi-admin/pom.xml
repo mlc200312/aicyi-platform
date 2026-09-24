@@ -31,32 +31,36 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- 本工程子模块版本（BOM 由父 POM aicyi-platform 统一管理） -->
-            <dependency>
+        <!-- 本工程子模块版本（BOM 由父 POM aicyi-platform 统一管理） -->
+        <dependency>
                 <groupId>io.github.aicyi.admin</groupId>
                 <artifactId>aicyi-admin-domain</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-            <dependency>
+
+        <dependency>
                 <groupId>io.github.aicyi.admin</groupId>
                 <artifactId>aicyi-admin-dao</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-            <dependency>
+
+        <dependency>
                 <groupId>io.github.aicyi.admin</groupId>
                 <artifactId>aicyi-admin-service</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-            <dependency>
+
+        <dependency>
                 <groupId>io.github.aicyi.admin</groupId>
                 <artifactId>aicyi-admin-web</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-            <dependency>
+
+        <dependency>
                 <groupId>io.github.aicyi.admin</groupId>
                 <artifactId>aicyi-admin-boot</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-        </dependencies>
+    </dependencies>
     </dependencyManagement>
 </project>

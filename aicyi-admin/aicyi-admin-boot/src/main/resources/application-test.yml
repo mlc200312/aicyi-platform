@@ -1,0 +1,27 @@
+# =====================================================================
+# application-test.yml —— test 环境：测试库/中间件连接（CI 经环境变量覆盖）+ 打印 SQL
+# =====================================================================
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:aicyi_platform}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:root}
+
+  sql:
+    init:
+      # 启动执行 schema.sql（DDL 全 IF NOT EXISTS 幂等）
+      mode: always
+      schema-locations: classpath:db/schema.sql
+      continue-on-error: false
+
+mybatis-plus:
+  configuration:
+    # 打印 SQL 日志，便于测试排错
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
