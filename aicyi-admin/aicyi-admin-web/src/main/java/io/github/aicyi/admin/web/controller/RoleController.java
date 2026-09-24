@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 角色管理接口（需求 4.3 角色管理模块）。
+ * 角色管理接口。
  */
 @Tag(name = "角色管理", description = "角色增删改查 / 启停 / 权限分配（需求 4.3）")
 @RestController

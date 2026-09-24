@@ -41,9 +41,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 用户管理服务（需求 4.2 用户管理模块）：列表 / 新增 / 编辑 / 禁用 / 删除 / 重置密码 / 角色分配。
+ * 用户管理服务：列表 / 新增 / 编辑 / 禁用 / 删除 / 重置密码 / 角色分配。
  *
- * <p>账号保护规则（需求 5.2）：超级管理员 admin 禁止删除、禁止禁用、禁止修改用户名。
+ * <p>账号保护规则：超级管理员 admin 禁止删除、禁止禁用、禁止修改用户名。
  */
 @Service
 public class UserManageService {

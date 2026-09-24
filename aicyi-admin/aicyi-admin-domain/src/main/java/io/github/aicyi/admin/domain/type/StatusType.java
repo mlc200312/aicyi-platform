@@ -9,14 +9,8 @@ import lombok.Getter;
  */
 public enum StatusType implements EnumType {
 
-    /**
-     * 启用
-     */
     ENABLED(1, "启用"),
 
-    /**
-     * 禁用
-     */
     DISABLED(0, "禁用");
 
     private final int code;
@@ -35,9 +29,6 @@ public enum StatusType implements EnumType {
         return code;
     }
 
-    /**
-     * 根据 code 解析枚举
-     */
     public static StatusType fromCode(Integer code) {
         if (code == null) {
             return null;

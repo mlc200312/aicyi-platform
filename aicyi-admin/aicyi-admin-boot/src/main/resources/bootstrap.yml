@@ -1,10 +1,4 @@
-# =====================================================================
-# bootstrap.yml —— Nacos 注册与配置中心引导（namespace 需在 bootstrap 阶段读取）
-# =====================================================================
-# 环境隔离：namespace = 环境（dev / test / prod），由启动参数或环境变量注入：
-#   -Dspring.cloud.nacos.config.namespace=prod  或  NACOS_NAMESPACE=prod
-# group = 业务域分组；dataId = ${spring.application.name}-${profile}.yaml
-# =====================================================================
+#  通用配置（环境差异见 application-{dev,test,prod}.yml）
 spring:
   application:
     name: aicyi-admin

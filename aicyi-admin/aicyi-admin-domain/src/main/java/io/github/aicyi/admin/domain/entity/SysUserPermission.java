@@ -22,50 +22,28 @@ import java.time.LocalDateTime;
 @TableName(value = "sys_user_permission", autoResultMap = true)
 public class SysUserPermission extends BaseEntity {
 
-    /**
-     * 主键（雪花算法生成，应用层 IdUtils.generateId() 赋值）
-     */
+    /** 主键（雪花算法生成，应用层 IdUtils.generateId() 赋值） */
     @TableId(type = IdType.INPUT)
     private Long id;
 
-    /**
-     * 用户 ID
-     */
     private Long userId;
 
-    /**
-     * 权限标识
-     */
     private String permCode;
 
-    /**
-     * 类型：追加 / 扣除
-     */
+    /** 类型：追加 / 扣除 */
     @TableField(typeHandler = IEnumTypeHandler.class)
     private PermissionType permType;
 
-    /**
-     * 删除标记
-     */
     @TableField(typeHandler = IEnumTypeHandler.class)
     private BooleanType deleted;
 
-    /**
-     * 乐观锁版本
-     */
     @TableField(fill = com.baomidou.mybatisplus.annotation.FieldFill.INSERT)
     @Version
     private Integer version;
 
-    /**
-     * 创建时间
-     */
     @TableField(fill = com.baomidou.mybatisplus.annotation.FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    /**
-     * 更新时间
-     */
     @TableField(fill = com.baomidou.mybatisplus.annotation.FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }

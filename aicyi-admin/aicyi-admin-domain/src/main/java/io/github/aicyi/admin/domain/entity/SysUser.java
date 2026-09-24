@@ -22,75 +22,40 @@ import java.time.LocalDateTime;
 @TableName(value = "sys_user", autoResultMap = true)
 public class SysUser extends BaseEntity {
 
-    /**
-     * 主键（雪花算法生成，应用层 IdUtils.generateId() 赋值）
-     */
+    /** 主键（雪花算法生成，应用层 IdUtils.generateId() 赋值） */
     @TableId(type = IdType.INPUT)
     private Long id;
 
-    /**
-     * 用户名（唯一标识，禁止修改）
-     */
+    /** 用户名（唯一标识，禁止修改） */
     private String username;
 
-    /**
-     * 密码（BCrypt 加密存储）
-     */
+    /** 密码（BCrypt 加密存储） */
     private String password;
 
-    /**
-     * 昵称
-     */
     private String nickname;
 
-    /**
-     * 手机号
-     */
     private String mobile;
 
-    /**
-     * 邮箱
-     */
     private String email;
 
-    /**
-     * 状态
-     */
     @TableField(typeHandler = IEnumTypeHandler.class)
     private StatusType status;
 
-    /**
-     * 备注
-     */
     private String remark;
 
-    /**
-     * 是否已修改初始密码
-     */
+    /** 是否已修改初始密码 */
     @TableField(typeHandler = IEnumTypeHandler.class)
     private BooleanType passwordModified;
 
-    /**
-     * 删除标记
-     */
     private BooleanType deleted;
 
-    /**
-     * 乐观锁版本
-     */
     @TableField(fill = com.baomidou.mybatisplus.annotation.FieldFill.INSERT)
     @Version
     private Integer version;
 
-    /**
-     * 创建时间
-     */
     @TableField(fill = com.baomidou.mybatisplus.annotation.FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    /**
-     * 更新时间
-     */
     @TableField(fill = com.baomidou.mybatisplus.annotation.FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }

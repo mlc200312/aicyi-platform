@@ -54,7 +54,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * 用户管理接口（需求 4.2 用户管理模块）。
+ * 用户管理接口。
  */
 @Tag(name = "用户管理", description = "系统用户增删改查 / 启停 / 密码重置 / 角色分配（需求 4.2）")
 @RestController

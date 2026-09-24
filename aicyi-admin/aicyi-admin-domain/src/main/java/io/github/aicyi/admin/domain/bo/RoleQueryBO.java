@@ -7,23 +7,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 角色分页查询参数（名称 / 标识模糊搜索）。
- *
- * <p>分页字段（page/size）继承 {@link PageParam}，兑底与上限由
- * {@code getPageOrDefault()/getSizeOrDefault()} 提供。
+ * 角色分页查询参数（名称/标识模糊搜索）。
  */
 @Getter
 @Setter
 @NoArgsConstructor
 public class RoleQueryBO extends PageParam implements BoBean {
 
-    /**
-     * 角色名称（模糊匹配，可选）
-     */
+    /** 角色名称（模糊匹配，可选） */
     private String roleName;
 
-    /**
-     * 角色标识（模糊匹配，可选）
-     */
+    /** 角色标识（模糊匹配，可选） */
     private String roleKey;
 }

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 个人中心接口（需求 4.2.2 个人中心：查看 / 修改个人信息、修改登录密码）。
+ * 个人中心接口。
  */
 @Tag(name = "个人中心", description = "当前登录用户查看 / 修改个人信息（需求 4.2.2）")
 @RestController

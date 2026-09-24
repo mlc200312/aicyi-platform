@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 菜单管理服务（需求 4.4 菜单管理模块）：树形展示 / 新增 / 编辑 / 删除 / 显示控制。
+ * 菜单管理服务：树形展示 / 新增 / 编辑 / 删除 / 显示控制。
  *
- * <p>内置核心菜单（系统初始化菜单）禁止删除（需求 4.4.2）。
+ * <p>内置核心菜单（系统初始化菜单）禁止删除。
  */
 @Service
 public class MenuManageService {
@@ -98,7 +98,7 @@ public class MenuManageService {
     }
 
     /**
-     * 删除菜单：内置核心菜单禁止删除（需求 4.4.2）
+     * 删除菜单：内置核心菜单禁止删除
      */
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long menuId) {

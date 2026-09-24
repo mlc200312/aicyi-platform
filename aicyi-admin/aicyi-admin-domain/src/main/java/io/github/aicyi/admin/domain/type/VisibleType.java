@@ -9,14 +9,8 @@ import lombok.Getter;
  */
 public enum VisibleType implements EnumType {
 
-    /**
-     * 显示
-     */
     SHOW(1, "显示"),
 
-    /**
-     * 隐藏
-     */
     HIDE(0, "隐藏");
 
     private final int code;

@@ -15,18 +15,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RoleCreateBO implements BoBean {
 
-    /**
-     * 角色名称
-     */
     private String roleName;
 
-    /**
-     * 角色标识（唯一）
-     */
+    /** 角色标识（唯一） */
     private String roleKey;
 
-    /**
-     * 角色描述
-     */
     private String description;
 }

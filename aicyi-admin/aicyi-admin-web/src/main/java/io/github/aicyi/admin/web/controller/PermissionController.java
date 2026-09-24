@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 权限管理接口（需求 4.5 权限管理模块）。
+ * 权限管理接口。
  */
 @Tag(name = "权限管理", description = "用户有效权限预览 / 单独授权 / 权限重置（需求 4.5）")
 @RestController

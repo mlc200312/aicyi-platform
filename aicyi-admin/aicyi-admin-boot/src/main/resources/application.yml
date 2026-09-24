@@ -1,6 +1,4 @@
-# =====================================================================
-# application.yml —— aicyi-admin：跨环境通用配置（环境差异见 application-{dev,test,prod}.yml）
-# =====================================================================
+# aicyi-admin 通用配置（环境差异见 application-{dev,test,prod}.yml）
 server:
   # 统一入口 gateway 18000：auth 18090 / admin 18091 / log 18092 / message 18093 / work-order 18094
   port: ${SERVER_PORT:18091}
@@ -10,7 +8,7 @@ spring:
     name: aicyi-admin
 
 aicyi:
-  # ===================== Token 框架（RefreshToken 注册表：管理侧踢会话能力） =====================
+# Token 框架（RefreshToken 注册表：管理侧踢会话能力）
   # 身份由网关统一校验后 X-User-Id / X-Username 透传；本服务装配 Token Bean 仅用于
   # SessionRevoker 吊销会话（删除/禁用/重置密码后踢下线）。
   # 互通约束：secret-key / issuer / subject 必须与 aicyi-auth 一致，共用 Redis token 注册表。

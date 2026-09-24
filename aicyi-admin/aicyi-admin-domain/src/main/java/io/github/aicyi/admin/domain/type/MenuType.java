@@ -5,23 +5,17 @@ import io.github.aicyi.common.model.EnumType;
 import lombok.Getter;
 
 /**
- * 菜单类型（实现脚手架 {@link EnumType}，由实体字段 IEnumTypeHandler 按 code 映射 TINYINT）。
+ * 菜单类型：目录 / 菜单 / 按钮。
  */
 public enum MenuType implements EnumType {
 
-    /**
-     * 目录（一级）
-     */
+    /** 目录（一级） */
     DIRECTORY(1, "目录"),
 
-    /**
-     * 菜单（二级）
-     */
+    /** 菜单（二级） */
     MENU(2, "菜单"),
 
-    /**
-     * 按钮（三级，绑定接口权限）
-     */
+    /** 按钮（三级，绑定接口权限） */
     BUTTON(3, "按钮");
 
     private final int code;

@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 权限服务：角色授权 / 用户单独授权 / 权限集计算与缓存（需求 4.5 权限管理模块）。
+ * 权限服务：角色授权 / 用户单独授权 / 权限集计算与缓存。
  *
- * <p>权限模型（需求 5.1）：用户 → 多角色 → 多权限，权限自动叠加；
+ * <p>权限模型：用户 → 多角色 → 多权限，权限自动叠加；
  * 优先级：用户单独权限 > 角色默认权限（追加 / 扣除）。
  */
 @Service
@@ -177,7 +177,7 @@ public class PermissionService {
     }
 
     /**
-     * 重置用户权限：清空用户单独授权，恢复角色默认权限（需求 4.5.2 权限重置）
+     * 重置用户权限：清空用户单独授权，恢复角色默认权限
      */
     @Transactional(rollbackFor = Exception.class)
     public void resetUserPermissions(Long userId) {

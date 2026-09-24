@@ -16,23 +16,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RoleEditBO implements BoBean {
 
-    /**
-     * 角色 ID
-     */
     private Long roleId;
 
-    /**
-     * 角色名称
-     */
     private String roleName;
 
-    /**
-     * 角色描述
-     */
     private String description;
 
-    /**
-     * 状态
-     */
     private StatusType status;
 }

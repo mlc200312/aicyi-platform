@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 系统初始化器（需求 3 系统初始化规则）。
+ * 系统初始化器。
  *
  * <p>首次启动自动执行：创建超级管理员 admin（初始密码 admin，BCrypt 加密）、
  * 超级管理员角色（super_admin，拥有系统所有权限，不可删除、不可禁用）、

@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 菜单管理接口（需求 4.4 菜单管理模块）。
+ * 菜单管理接口。
  */
 @Tag(name = "菜单管理", description = "菜单 / 按钮树维护（需求 4.4）")
 @RestController

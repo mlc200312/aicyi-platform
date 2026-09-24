@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.Set;
 
 /**
- * 用户单独授权参数（追加 / 扣除权限标识，整体覆盖）。
+ * 用户单独授权参数（追加/扣除权限标识，整体覆盖）。
  */
 @Getter
 @Setter
@@ -17,18 +17,11 @@ import java.util.Set;
 @AllArgsConstructor
 public class AssignUserPermsBO implements BoBean {
 
-    /**
-     * 用户 ID
-     */
     private Long userId;
 
-    /**
-     * 追加权限标识集合
-     */
+    /** 追加权限标识集合 */
     private Set<String> addCodes;
 
-    /**
-     * 扣除权限标识集合
-     */
+    /** 扣除权限标识集合 */
     private Set<String> removeCodes;
 }

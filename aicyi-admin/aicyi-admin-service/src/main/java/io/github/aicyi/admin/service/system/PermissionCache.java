@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * 权限集缓存（Redis）：{@code rbac:perms:{userId}} → 权限标识集合 JSON。
  *
- * <p>满足需求 6.2「权限数据缓存处理，减少数据库频繁查询」；
+ * <p>满足；
  * 角色授权 / 用户单独授权 / 角色状态 / 用户禁用等变更后由业务显式失效对应缓存。
  */
 @Component

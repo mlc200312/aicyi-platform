@@ -27,38 +27,20 @@ public class SysUserRole extends BaseEntity {
     @TableId(type = IdType.INPUT)
     private Long id;
 
-    /**
-     * 用户 ID
-     */
     private Long userId;
 
-    /**
-     * 角色 ID
-     */
     private Long roleId;
 
-    /**
-     * 删除标记
-     */
     @TableField(typeHandler = IEnumTypeHandler.class)
     private BooleanType deleted;
 
-    /**
-     * 乐观锁版本
-     */
     @TableField(fill = com.baomidou.mybatisplus.annotation.FieldFill.INSERT)
     @Version
     private Integer version;
 
-    /**
-     * 创建时间
-     */
     @TableField(fill = com.baomidou.mybatisplus.annotation.FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    /**
-     * 更新时间
-     */
     @TableField(fill = com.baomidou.mybatisplus.annotation.FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }

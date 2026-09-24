@@ -15,9 +15,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.util.Set;
 
 /**
- * 接口权限细粒度拦截（需求 4.5.3 / 6.1）。
+ * 接口权限细粒度拦截。
  *
- * <p>规则（需求 5.2 / 5.3）：
+ * <p>规则：
  * <ul>
  *     <li>认证接口（/api/auth/**）放行（登录 / 刷新免权限）；</li>
  *     <li>超级管理员 admin 放行，不参与权限拦截校验（拥有系统全部权限）；</li>
@@ -57,7 +57,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             throw new UnauthorizedException();
         }
 
-        // 超级管理员不参与权限拦截（需求 5.2）
+        // 超级管理员不参与权限拦截
         if (SysConstants.ADMIN_USERNAME.equals(CurrentContextHolder.getUsername())) {
             return true;
         }
