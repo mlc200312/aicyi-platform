@@ -93,6 +93,33 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- 各服务 Client（Feign 接口契约）：跨服务调用方省略 version -->
+            <dependency>
+                <groupId>io.github.aicyi.auth</groupId>
+                <artifactId>aicyi-auth-client</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.aicyi.admin</groupId>
+                <artifactId>aicyi-admin-client</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.aicyi.workorder</groupId>
+                <artifactId>aicyi-work-order-client</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.aicyi.log</groupId>
+                <artifactId>aicyi-log-client</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.aicyi.message</groupId>
+                <artifactId>aicyi-message-client</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

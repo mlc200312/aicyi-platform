@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.aicyi.admin</groupId>
+        <artifactId>aicyi-admin</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>aicyi-admin-client</artifactId>
+    <packaging>jar</packaging>
+    <name>aicyi admin client</name>
+    <description>对外 Feign 接口契约：其他服务依赖本模块即可调用 admin API</description>
+
+    <dependencies>
+        <!-- @FeignClient 注解（版本由 Spring Cloud BOM 管理） -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
+        </dependency>
+    </dependencies>
+</project>
