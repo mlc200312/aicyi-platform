@@ -30,6 +30,7 @@ import io.github.aicyi.admin.web.dto.UserQueryReq;
 import io.github.aicyi.admin.web.vo.RoleResp;
 import io.github.aicyi.common.model.Result;
 import io.github.aicyi.middleware.operatelog.annotation.OperLog;
+import io.github.aicyi.middleware.web.annotation.IgnoreAuth;
 import io.github.aicyi.middleware.web.model.PageResponse;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import jakarta.servlet.http.HttpServletResponse;
@@ -388,6 +389,7 @@ public class UserController {
     /**
      * 凭证校验（认证服务内部调用）：校验用户名密码，返回不含密码哈希的认证信息。
      */
+    @IgnoreAuth
     @Operation(summary = "凭证校验", description = "认证服务内部调用：登录校验用户名密码", hidden = true)
     @PostMapping("/auth/verify")
     public Result<UserAuthInfo> verifyCredentials(@RequestBody UsernamePasswordReq req) {
@@ -397,6 +399,7 @@ public class UserController {
     /**
      * 修改密码（认证服务内部调用）：校验原密码后更新，置 passwordModified=TRUE。
      */
+    @IgnoreAuth
     @Operation(summary = "修改密码", description = "认证服务内部调用：个人中心改密", hidden = true)
     @PutMapping("/auth/password")
     public Result<Void> changePassword(@RequestBody ChangePasswordReq req) {
@@ -407,6 +410,7 @@ public class UserController {
     /**
      * 按用户名查询用户（认证服务内部调用）：忘记密码定位用户。
      */
+    @IgnoreAuth
     @Operation(summary = "按用户名查询用户", description = "认证服务内部调用：忘记密码定位用户", hidden = true)
     @GetMapping("/auth-info/{username}")
     public Result<UserAuthInfo> getByUsername(@PathVariable("username") String username) {
