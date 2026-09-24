@@ -22,7 +22,7 @@ public class JacksonConfig {
     public Jackson2ObjectMapperBuilderCustomizer booleanTypeSerializerCustomizer() {
         return builder -> {
             SimpleModule module = new SimpleModule();
-            module.addSerializer(BooleanType.class, new JsonSerializer<BooleanType>() {
+            module.addSerializer(BooleanType.class, new JsonSerializer<>() {
                 @Override
                 public void serialize(BooleanType value, JsonGenerator gen, SerializerProvider serializers)
                         throws IOException {

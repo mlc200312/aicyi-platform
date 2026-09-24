@@ -20,7 +20,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  */
 @SpringBootApplication(scanBasePackages = {"io.github.aicyi.admin"})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@MapperScan(basePackages = {"io.github.aicyi.admin.dao.mapper", "io.github.aicyi.infra.mybatisplus.mapper"},
+@MapperScan(basePackages = {"io.github.aicyi.admin.dao.mapper"},
         annotationClass = Mapper.class)
 @EnableMidwareWeb(
         enableAuth = false,
