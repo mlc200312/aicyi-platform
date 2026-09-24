@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.aicyi.admin</groupId>
+        <artifactId>aicyi-admin</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>aicyi-admin-web</artifactId>
+    <packaging>jar</packaging>
+    <name>aicyi admin web</name>
+    <description>Web 层：控制器 / Req / Resp</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.aicyi.admin</groupId>
+            <artifactId>aicyi-admin-service</artifactId>
+        </dependency>
+
+        <!-- aicyi Web 中间件：统一响应 / 全局异常 / 链路追踪 / 请求日志 -->
+        <dependency>
+            <groupId>io.github.aicyi.middleware</groupId>
+            <artifactId>aicyi-middleware-web</artifactId>
+        </dependency>
+
+        <!-- Excel 导出：脚手架 ExcelUtils 标记 optional，使用方显式引入（版本由 BOM 管理） -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+        </dependency>
+
+        <!-- springdoc-openapi（OpenAPI 3）：springfox 不兼容 Spring Boot 3.x -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+    </dependencies>
+</project>
