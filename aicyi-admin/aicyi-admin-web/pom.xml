@@ -18,6 +18,11 @@
     <dependencies>
         <dependency>
             <groupId>io.github.aicyi.admin</groupId>
+            <artifactId>aicyi-admin-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.aicyi.admin</groupId>
             <artifactId>aicyi-admin-service</artifactId>
         </dependency>
 

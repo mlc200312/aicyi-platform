@@ -11,4 +11,8 @@ public class UserNotFoundException extends BusinessException {
     public UserNotFoundException(Long userId) {
         super(CommonResultCode.PARAM_ERROR, "用户不存在: " + userId);
     }
+
+    public UserNotFoundException(String username) {
+        super(CommonResultCode.PARAM_ERROR, "用户不存在: " + username);
+    }
 }

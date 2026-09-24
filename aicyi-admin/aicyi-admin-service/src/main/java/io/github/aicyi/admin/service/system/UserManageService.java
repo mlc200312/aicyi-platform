@@ -1,5 +1,6 @@
 package io.github.aicyi.admin.service.system;
 
+import io.github.aicyi.admin.client.model.UserAuthInfo;
 import io.github.aicyi.admin.dao.mapper.SysRoleMapper;
 import io.github.aicyi.admin.dao.mapper.SysUserMapper;
 import io.github.aicyi.admin.dao.mapper.SysUserRoleMapper;
@@ -7,6 +8,8 @@ import io.github.aicyi.admin.domain.constant.SysConstants;
 import io.github.aicyi.admin.domain.entity.SysRole;
 import io.github.aicyi.admin.domain.entity.SysUser;
 import io.github.aicyi.admin.domain.entity.SysUserRole;
+import io.github.aicyi.admin.domain.exception.LoginFailException;
+import io.github.aicyi.admin.domain.exception.UserDisabledException;
 import io.github.aicyi.admin.domain.exception.UserNotFoundException;
 import io.github.aicyi.admin.domain.exception.UsernameAlreadyExistsException;
 import io.github.aicyi.admin.domain.bo.UserCreateBO;
@@ -318,6 +321,68 @@ public class UserManageService {
      */
     public SysUser getById(Long userId) {
         return requireUser(userId);
+    }
+
+    /**
+     * 凭证校验（登录入口）：按用户名查未删除用户，校验状态与 BCrypt 密码。
+     *
+     * <p>供认证服务跨服务调用；用户不存在 / 密码错误统一抛 {@link LoginFailException}（防账号枚举），
+     * 禁用账号抛 {@link UserDisabledException}；返回不含密码哈希的认证信息。
+     */
+    public UserAuthInfo verifyCredentials(String username, String rawPassword) {
+        SysUser user = userMapper.selectOne(Wrappers.<SysUser>lambdaQuery()
+                .eq(SysUser::getUsername, username)
+                .eq(SysUser::getDeleted, BooleanType.FALSE));
+        if (user == null || !passwordEncoder.matches(rawPassword, user.getPassword())) {
+            throw new LoginFailException();
+        }
+        if (user.getStatus() == null || user.getStatus() != StatusType.ENABLED) {
+            throw new UserDisabledException(username);
+        }
+        return toAuthInfo(user);
+    }
+
+    /**
+     * 修改密码（个人中心）：校验原密码后更新（BCrypt），置 passwordModified=TRUE。
+     *
+     * <p>供认证服务跨服务调用；改密后会话失效由认证服务负责踢下线。
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void changePassword(Long userId, String oldPassword, String newPassword) {
+        SysUser user = requireUser(userId);
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new LoginFailException();
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setPasswordModified(BooleanType.TRUE);
+        userMapper.updateById(user);
+        log.info("password_changed_by_auth userId={}", userId);
+    }
+
+    /**
+     * 按用户名查询未删除用户（忘记密码定位用户）。
+     */
+    public UserAuthInfo getByUsername(String username) {
+        SysUser user = userMapper.selectOne(Wrappers.<SysUser>lambdaQuery()
+                .eq(SysUser::getUsername, username)
+                .eq(SysUser::getDeleted, BooleanType.FALSE));
+        if (user == null) {
+            throw new UserNotFoundException(username);
+        }
+        return toAuthInfo(user);
+    }
+
+    /**
+     * 组装认证信息（不含密码哈希）。
+     */
+    private UserAuthInfo toAuthInfo(SysUser user) {
+        UserAuthInfo info = new UserAuthInfo();
+        info.setId(user.getId());
+        info.setUsername(user.getUsername());
+        info.setNickname(user.getNickname());
+        info.setPasswordModified(user.getPasswordModified() == BooleanType.TRUE);
+        info.setEnabled(user.getStatus() != null && user.getStatus() == StatusType.ENABLED);
+        return info;
     }
 
     /**

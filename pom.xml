@@ -19,6 +19,7 @@
     <description>aicyi platform</description>
 
     <modules>
+        <module>aicyi-event</module>
         <module>aicyi-admin</module>
         <module>aicyi-auth</module>
         <module>aicyi-gateway</module>
@@ -110,10 +111,10 @@
                 <artifactId>aicyi-work-order-client</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-            <!-- 工单领域事件契约（跨服务共享：work-order 发布 / message 订阅） -->
+            <!-- 平台统一领域事件契约（跨服务共享：各服务发布 / 订阅） -->
             <dependency>
-                <groupId>io.github.aicyi.workorder</groupId>
-                <artifactId>aicyi-work-order-event</artifactId>
+                <groupId>io.github.aicyi.cloud</groupId>
+                <artifactId>aicyi-event</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.aicyi.cloud</groupId>
+        <artifactId>aicyi-platform</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>aicyi-event</artifactId>
+    <packaging>jar</packaging>
+    <name>aicyi event</name>
+    <description>平台统一领域事件契约（各服务发布 / 订阅共用；禁止放业务实现）</description>
+
+    <!-- 零业务依赖：仅 JDK Serializable POJO + BaseBean（由父 POM 继承提供），供生产端与消费端共享 -->
+</project>

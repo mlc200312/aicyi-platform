@@ -13,6 +13,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.github.aicyi.admin.client.model.ChangePasswordReq;
+import io.github.aicyi.admin.client.model.UserAuthInfo;
+import io.github.aicyi.admin.client.model.UsernamePasswordReq;
 import io.github.aicyi.admin.domain.entity.SysUser;
 import io.github.aicyi.admin.domain.type.StatusType;
 import io.github.aicyi.admin.service.system.UserManageService;
@@ -380,5 +383,33 @@ public class UserController {
             throw new IllegalArgumentException("文件大小不能超过 5MB");
         }
         return Result.success(AdminConverter.INSTANCE.toUserImportResp(userManageService.importUsers(file.getBytes())));
+    }
+
+    /**
+     * 凭证校验（认证服务内部调用）：校验用户名密码，返回不含密码哈希的认证信息。
+     */
+    @Operation(summary = "凭证校验", description = "认证服务内部调用：登录校验用户名密码", hidden = true)
+    @PostMapping("/auth/verify")
+    public Result<UserAuthInfo> verifyCredentials(@RequestBody UsernamePasswordReq req) {
+        return Result.success(userManageService.verifyCredentials(req.getUsername(), req.getPassword()));
+    }
+
+    /**
+     * 修改密码（认证服务内部调用）：校验原密码后更新，置 passwordModified=TRUE。
+     */
+    @Operation(summary = "修改密码", description = "认证服务内部调用：个人中心改密", hidden = true)
+    @PutMapping("/auth/password")
+    public Result<Void> changePassword(@RequestBody ChangePasswordReq req) {
+        userManageService.changePassword(req.getUserId(), req.getOldPassword(), req.getNewPassword());
+        return Result.success();
+    }
+
+    /**
+     * 按用户名查询用户（认证服务内部调用）：忘记密码定位用户。
+     */
+    @Operation(summary = "按用户名查询用户", description = "认证服务内部调用：忘记密码定位用户", hidden = true)
+    @GetMapping("/auth-info/{username}")
+    public Result<UserAuthInfo> getByUsername(@PathVariable("username") String username) {
+        return Result.success(userManageService.getByUsername(username));
     }
 }
