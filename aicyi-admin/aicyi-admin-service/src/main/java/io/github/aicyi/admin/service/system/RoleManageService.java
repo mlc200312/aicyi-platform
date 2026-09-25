@@ -143,6 +143,10 @@ public class RoleManageService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void changeStatus(Long roleId, StatusType status) {
+        if (status == null) {
+            // StatusType.fromCode 对非法编码返回 null：不校验会误入禁用分支触发缓存逐出
+            throw new IllegalArgumentException("非法的状态参数");
+        }
         SysRole role = requireRole(roleId);
         if (status != StatusType.ENABLED) {
             ensureNotSuperRole(role, "禁用");

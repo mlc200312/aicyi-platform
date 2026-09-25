@@ -33,3 +33,18 @@ logs/
 .DS_Store
 **/.DS_Store
 /.qoder/
+
+### Maven flatten 插件产物 ###
+.flattened-pom.xml
+**/.flattened-pom.xml
+
+### 运行日志 ###
+logs/
+.DS_Store
+
+### 微服务子仓库（各自独立 git 仓库管理）###
+aicyi-auth/
+aicyi-gateway/
+aicyi-log/
+aicyi-message/
+aicyi-work-order/

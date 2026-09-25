@@ -16,15 +16,16 @@ import io.github.aicyi.admin.domain.bo.AssignUserPermsBO;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.github.aicyi.common.logging.Logger;
 import io.github.aicyi.common.logging.LoggerFactory;
+import io.github.aicyi.common.model.type.BooleanType;
 import io.github.aicyi.middleware.kit.util.IdUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -188,34 +189,27 @@ public class PermissionService {
     }
 
     /**
-     * 校验用户是否拥有指定权限标识（接口权限拦截调用）
+     * 全量接口权限映射（api_path → perm_code 集合），供网关权限过滤器下发。
      *
-     * @return true 拥有 / false 未拥有
-     */
-    public boolean hasPermission(Long userId, String permCode) {
-        if (permCode == null || permCode.isEmpty()) {
-            return true;
-        }
-        return getEffectivePermissions(userId).contains(permCode);
-    }
-
-    /**
-     * 按接口路径匹配所需权限标识；未配置权限的接口放行
+     * <p>仅统计同时配置了 api_path 与 perm_code 且未删除的菜单（按钮级权限项）；
+     * api_path 支持 {@code {param}} 占位与通配，模式匹配由消费端（网关）完成，
+     * 同一路径多个菜单的权限标识合并（任一命中即放行）。
      *
-     * @return 权限标识；接口未配置权限时返回空集（放行）
+     * @return api_path → 权限标识集合；接口未配置权限时不在映射内（语义为放行）
      */
-    public Set<String> findPermCodesByApiPath(String apiPath) {
+    public Map<String, Set<String>> listApiPermMappings() {
         List<SysMenu> menus = menuMapper.selectList(
-                Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getApiPath, apiPath));
-        if (menus.isEmpty()) {
-            return Collections.emptySet();
-        }
-        Set<String> codes = new HashSet<>();
+                Wrappers.<SysMenu>lambdaQuery().isNotNull(SysMenu::getApiPath));
+        Map<String, Set<String>> mappings = new LinkedHashMap<>();
         for (SysMenu menu : menus) {
-            if (StringUtils.hasText(menu.getPermCode())) {
-                codes.add(menu.getPermCode());
+            if (menu.getDeleted() == BooleanType.TRUE
+                    || !StringUtils.hasText(menu.getApiPath())
+                    || !StringUtils.hasText(menu.getPermCode())) {
+                continue;
             }
+            mappings.computeIfAbsent(menu.getApiPath(), key -> new LinkedHashSet<>())
+                    .add(menu.getPermCode());
         }
-        return codes;
+        return mappings;
     }
 }

@@ -221,7 +221,10 @@ public class UserManageService {
     }
 
     /**
-     * 编辑用户：修改昵称 / 手机号 / 邮箱 / 状态 / 备注 / 角色；禁止修改用户名
+     * 编辑用户：修改昵称 / 手机号 / 邮箱 / 状态 / 备注 / 角色；禁止修改用户名。
+     *
+     * <p>roleIds 语义：null = 不修改角色绑定（个人中心复用本方法仅更新资料）；
+     * 非 null（含空集合）= 整体覆盖角色绑定（与管理端编辑 / 分配角色语义一致）。
      */
     @Transactional(rollbackFor = Exception.class)
     public SysUser edit(UserEditBO bo) {
@@ -232,7 +235,10 @@ public class UserManageService {
         ServiceConverter.INSTANCE.updateDO(user, bo);
         userMapper.updateById(user);
 
-        bindRoles(bo.getUserId(), bo.getRoleIds());
+        // 仅在显式传入角色列表时整体覆盖，null 不动绑定（否则个人中心改资料会清空角色）
+        if (bo.getRoleIds() != null) {
+            bindRoles(bo.getUserId(), bo.getRoleIds());
+        }
         permissionCache.evict(bo.getUserId());
         log.info("user_edited userId={}", bo.getUserId());
         return userMapper.selectById(bo.getUserId());
@@ -260,6 +266,10 @@ public class UserManageService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void changeStatus(Long userId, StatusType status) {
+        if (status == null) {
+            // StatusType.fromCode 对非法编码返回 null：不校验会误入禁用分支触发踢下线
+            throw new IllegalArgumentException("非法的状态参数");
+        }
         SysUser user = requireUser(userId);
         if (status != StatusType.ENABLED) {
             ensureNotAdmin(user);
@@ -386,7 +396,10 @@ public class UserManageService {
     }
 
     /**
-     * 绑定角色：整体覆盖该用户的角色集合
+     * 绑定角色：整体覆盖该用户的角色集合。
+     *
+     * <p>仅接受显式覆盖（含空集合 = 清空）；「不修改」语义由调用方（{@link #edit}）以 null 判空承载，
+     * 本方法不处理 null 透传。
      */
     private void bindRoles(Long userId, List<Long> roleIds) {
         userRoleMapper.delete(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, userId));

@@ -40,11 +40,13 @@ public class MenuManageService {
     }
 
     /**
-     * 菜单树形展示（目录 → 菜单 → 按钮三级）
+     * 菜单树形展示（目录 → 菜单 → 按钮三级，不含已删除）
      */
     public List<MenuNode> tree() {
         List<SysMenu> menus = menuMapper.selectList(
-                Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSort).orderByAsc(SysMenu::getId));
+                Wrappers.<SysMenu>lambdaQuery()
+                        .eq(SysMenu::getDeleted, BooleanType.FALSE)
+                        .orderByAsc(SysMenu::getSort).orderByAsc(SysMenu::getId));
         Map<Long, MenuNode> nodeMap = new LinkedHashMap<>();
         for (SysMenu menu : menus) {
             nodeMap.put(menu.getId(), MenuNode.from(menu));
@@ -98,13 +100,19 @@ public class MenuManageService {
     }
 
     /**
-     * 删除菜单：内置核心菜单禁止删除
+     * 删除菜单：内置核心菜单禁止删除；存在未删除子菜单时拒绝删除（防孤儿节点）
      */
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long menuId) {
         SysMenu menu = requireMenu(menuId);
         if (menu.getBuiltin() != null && menu.getBuiltin() == BooleanType.TRUE) {
             throw new IllegalArgumentException("系统内置菜单禁止删除: " + menu.getMenuName());
+        }
+        Long childCount = menuMapper.selectCount(Wrappers.<SysMenu>lambdaQuery()
+                .eq(SysMenu::getParentId, menuId)
+                .eq(SysMenu::getDeleted, BooleanType.FALSE));
+        if (childCount != null && childCount > 0) {
+            throw new IllegalArgumentException("存在未删除的子菜单，请先删除子菜单: " + menu.getMenuName());
         }
         menuMapper.update(null, Wrappers.<SysMenu>lambdaUpdate()
                 .eq(SysMenu::getId, menuId)
@@ -113,11 +121,13 @@ public class MenuManageService {
     }
 
     /**
-     * 全部菜单（权限分配用，拉平列表）
+     * 全部菜单（权限分配用，拉平列表，不含已删除）
      */
     public List<SysMenu> listAll() {
         return menuMapper.selectList(
-                Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSort).orderByAsc(SysMenu::getId));
+                Wrappers.<SysMenu>lambdaQuery()
+                        .eq(SysMenu::getDeleted, BooleanType.FALSE)
+                        .orderByAsc(SysMenu::getSort).orderByAsc(SysMenu::getId));
     }
 
     private SysMenu requireMenu(Long menuId) {

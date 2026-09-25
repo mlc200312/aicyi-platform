@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.github.aicyi.admin.client.model.ApiPermMapping;
 import io.github.aicyi.admin.service.system.PermissionService;
 import io.github.aicyi.admin.web.convert.AdminConverter;
 import io.github.aicyi.admin.web.dto.AssignUserPermsReq;
@@ -15,8 +16,10 @@ import io.github.aicyi.admin.web.vo.PermissionPreviewResp;
 import io.github.aicyi.admin.web.vo.UserPermissionResp;
 import io.github.aicyi.common.model.Result;
 import io.github.aicyi.middleware.operatelog.annotation.OperLog;
+import io.github.aicyi.middleware.web.annotation.IgnoreAuth;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -112,5 +116,36 @@ public class PermissionController {
             @Parameter(description = "用户 ID", example = "1", required = true) @RequestParam Long userId) {
         permissionService.resetUserPermissions(userId);
         return Result.success();
+    }
+
+    /**
+     * 用户有效权限集（内部 RPC）：供网关权限过滤器 / 服务端兜底校验调用。
+     *
+     * <p>{@code @IgnoreAuth} 免令牌校验，仅限内网服务间访问；网关侧经
+     * {@code aicyi.gateway.permission.internal-only-paths} 拒绝外部经网关访问该端点。
+     */
+    @IgnoreAuth
+    @Operation(summary = "用户有效权限集（内部）",
+            description = "网关权限过滤器调用：返回用户有效权限集合", hidden = true)
+    @GetMapping("/effective/{userId}")
+    public Result<Set<String>> effective(
+            @PathVariable("userId") Long userId) {
+        return Result.success(new LinkedHashSet<>(permissionService.getEffectivePermissions(userId)));
+    }
+
+    /**
+     * 接口权限映射全量清单（内部 RPC）：api_path → perm_code，供网关权限过滤器加载。
+     *
+     * <p>信任模型同上：内网可见，外部经网关访问被网关拒绝。
+     */
+    @IgnoreAuth
+    @Operation(summary = "接口权限映射（内部）",
+            description = "网关权限过滤器调用：返回 api_path 与权限标识映射清单", hidden = true)
+    @GetMapping("/api-mappings")
+    public Result<List<ApiPermMapping>> apiMappings() {
+        List<ApiPermMapping> mappings = permissionService.listApiPermMappings().entrySet().stream()
+                .map(entry -> new ApiPermMapping(entry.getKey(), entry.getValue()))
+                .toList();
+        return Result.success(mappings);
     }
 }

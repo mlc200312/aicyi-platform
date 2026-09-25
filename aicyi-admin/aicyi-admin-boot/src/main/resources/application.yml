@@ -17,6 +17,13 @@ aicyi:
     secret-key: ${AICYI_TOKEN_SECRET:aicyi-cloud-admin-dev-secret-key-please-change-2026}
     issuer: aicyi-cloud-admin
     subject: admin-token
+    # 键空间前缀：与网关吊销校验、aicyi-auth 签发端共享同一键空间（统一令牌域，SessionRevoker 跨服务踢下线据此生效）
+    key-prefix: aicyi-cloud-admin-token
+    # 会话绑定吊销判定：删除/禁用/重置密码触发的踢下线秒级失效已签发 AccessToken
+    access-session-binding: true
+    legacy-token-policy: accept
+    revocation-fail-strategy: open
+    state-cache-ttl-seconds: 30
     # principal 类型：AccessToken 载荷（实现 JwtInfo）
     principal-type: io.github.aicyi.admin.domain.bo.LoginUser
     # AccessToken 2 小时 / RefreshToken 30 天
@@ -58,6 +65,11 @@ aicyi:
         - secret
         - mobile
         - email
+  mybatis-plus:
+    # 注册框架共享 Mapper（SysOperLogMapper）：@OperLog 的 db 存储落库依赖；
+    # MapperScan 注册的 Mapper 定义晚于解析期 @ConditionalOnBean 的可见范围，
+    # 不开启共享扫描则 db 存储静默缺位、审计留痕全量失败
+    shared-mapper-enabled: true
 
 mybatis-plus:
   configuration:
