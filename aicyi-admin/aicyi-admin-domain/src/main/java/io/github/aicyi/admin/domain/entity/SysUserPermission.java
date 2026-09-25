@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 @TableName(value = "sys_user_permission", autoResultMap = true)
 public class SysUserPermission extends BaseEntity {
 
-    /** 主键（雪花算法生成，应用层 IdUtils.generateId() 赋值） */
-    @TableId(type = IdType.INPUT)
+    /** 主键（数据库自增） */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     private Long userId;

@@ -29,7 +29,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.aicyi.common.logging.Logger;
 import io.github.aicyi.common.logging.LoggerFactory;
 import io.github.aicyi.common.model.type.BooleanType;
-import io.github.aicyi.middleware.kit.util.IdUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -205,7 +204,6 @@ public class UserManageService {
         }
 
         SysUser user = ServiceConverter.INSTANCE.toDO(bo);
-        user.setId(IdUtils.generateId());
         user.setPassword(passwordEncoder.encode(bo.getPassword()));
         if (!StringUtils.hasText(user.getNickname())) {
             user.setNickname(user.getUsername());
@@ -408,7 +406,6 @@ public class UserManageService {
         }
         for (Long roleId : roleIds) {
             SysUserRole userRole = new SysUserRole();
-            userRole.setId(IdUtils.generateId());
             userRole.setUserId(userId);
             userRole.setRoleId(roleId);
             userRole.setDeleted(BooleanType.FALSE);

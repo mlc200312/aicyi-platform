@@ -18,7 +18,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.aicyi.common.logging.Logger;
 import io.github.aicyi.common.logging.LoggerFactory;
 import io.github.aicyi.common.model.type.BooleanType;
-import io.github.aicyi.middleware.kit.util.IdUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -91,7 +90,6 @@ public class RoleManageService {
             throw new IllegalArgumentException("角色标识已存在: " + bo.getRoleKey());
         }
         SysRole role = ServiceConverter.INSTANCE.toDO(bo);
-        role.setId(IdUtils.generateId());
         role.setStatus(StatusType.ENABLED);
         role.setBuiltin(BooleanType.FALSE);
         role.setDeleted(BooleanType.FALSE);
@@ -172,7 +170,6 @@ public class RoleManageService {
                     continue;
                 }
                 SysRoleMenu roleMenu = new SysRoleMenu();
-                roleMenu.setId(IdUtils.generateId());
                 roleMenu.setRoleId(roleId);
                 roleMenu.setMenuId(menuId);
                 roleMenu.setDeleted(BooleanType.FALSE);

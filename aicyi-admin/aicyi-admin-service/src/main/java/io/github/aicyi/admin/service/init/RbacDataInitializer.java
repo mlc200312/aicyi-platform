@@ -18,7 +18,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.github.aicyi.common.logging.Logger;
 import io.github.aicyi.common.logging.LoggerFactory;
 import io.github.aicyi.common.model.type.BooleanType;
-import io.github.aicyi.middleware.kit.util.IdUtils;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.dao.DuplicateKeyException;
@@ -95,7 +94,6 @@ public class RbacDataInitializer implements ApplicationRunner {
         if (!adminExists) {
             // 1. 超级管理员用户
             SysUser admin = new SysUser();
-            admin.setId(IdUtils.generateId());
             admin.setUsername(SysConstants.ADMIN_USERNAME);
             admin.setPassword(passwordEncoder.encode(SysConstants.ADMIN_INIT_PASSWORD));
             admin.setNickname(SysConstants.ADMIN_NICKNAME);
@@ -105,7 +103,6 @@ public class RbacDataInitializer implements ApplicationRunner {
 
             // 2. 超级管理员角色
             SysRole superRole = new SysRole();
-            superRole.setId(IdUtils.generateId());
             superRole.setRoleName(SysConstants.SUPER_ROLE_NAME);
             superRole.setRoleKey(SysConstants.SUPER_ROLE_KEY);
             superRole.setDescription("拥有系统全部权限，不可删除、不可禁用");
@@ -115,7 +112,6 @@ public class RbacDataInitializer implements ApplicationRunner {
 
             // 3. 绑定 admin → 超级管理员角色
             SysUserRole userRole = new SysUserRole();
-            userRole.setId(IdUtils.generateId());
             userRole.setUserId(admin.getId());
             userRole.setRoleId(superRole.getId());
             userRoleMapper.insert(userRole);
@@ -154,7 +150,6 @@ public class RbacDataInitializer implements ApplicationRunner {
     private void bindRoleMenus(Long roleId, List<Long> menuIds) {
         for (Long menuId : menuIds) {
             SysRoleMenu roleMenu = new SysRoleMenu();
-            roleMenu.setId(IdUtils.generateId());
             roleMenu.setRoleId(roleId);
             roleMenu.setMenuId(menuId);
             roleMenuMapper.insert(roleMenu);
@@ -211,29 +206,12 @@ public class RbacDataInitializer implements ApplicationRunner {
         menuIds.add(insertMenu(permMenu, "权限查询", MenuType.BUTTON, null, "system:perm:list", "/api/system/perm/list", null, 1, true));
         menuIds.add(insertMenu(permMenu, "用户授权", MenuType.BUTTON, null, "system:perm:assign", "/api/system/perm/assign", null, 2, true));
 
-        // 日志管理（顶级目录）。api_path 必须与 aicyi-log 实际路由一致（/api/log/oper/**）；
-        // 清理端点独立注册 /api/log/clean + system:log:clean（脱离 {id} 占位的单段通配覆盖域，
-        // 防止查看权限经网关「任一命中即放行」聚合误放行高危清理端点）
-        long logDir = insertMenu(0L, "日志管理", MenuType.DIRECTORY, null, null, null, "Document", 2, true);
-        menuIds.add(logDir);
-        long logMenu = insertMenu(logDir, "操作日志", MenuType.MENU, "/log", null, null, "Tickets", 1, true);
-        menuIds.add(logMenu);
-        menuIds.add(insertMenu(logMenu, "日志查询", MenuType.BUTTON, null, "system:log:list", "/api/log/oper/list", null, 1, true));
-        menuIds.add(insertMenu(logMenu, "日志详情", MenuType.BUTTON, null, "system:log:list", "/api/log/oper/{id}", null, 2, true));
-        menuIds.add(insertMenu(logMenu, "日志清理", MenuType.BUTTON, null, "system:log:clean", "/api/log/clean", null, 3, true));
-
-        // 配置中心 / 模板管理菜单已移除：模板管理属 aicyi-message 域，其菜单与权限
-        // 由 aicyi-gateway/src/main/resources/db/init-message-menu.sql 统一初始化；
-        // 存量库中旧版指向 /api/system/message-template/*（路由到 admin，恒 404）的死配置
-        // 由 aicyi-admin-boot/src/main/resources/db/fix-remove-dead-message-menus.sql 清理。
-
         return menuIds;
     }
 
     private long insertMenu(Long parentId, String name, MenuType type, String path,
                             String permCode, String apiPath, String icon, int sort, boolean visible) {
         SysMenu menu = new SysMenu();
-        menu.setId(IdUtils.generateId());
         menu.setParentId(parentId);
         menu.setMenuName(name);
         menu.setMenuType(type);

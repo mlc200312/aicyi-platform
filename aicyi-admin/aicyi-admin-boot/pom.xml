@@ -67,7 +67,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>io.github.aicyi.admin.boot.AicyiAdminApplication</mainClass>
+                    <mainClass>io.github.aicyi.admin.boot.AdminApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

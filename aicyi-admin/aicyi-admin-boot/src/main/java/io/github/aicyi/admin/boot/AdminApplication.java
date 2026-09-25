@@ -31,9 +31,9 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
                 "/api-doc.html",
                 "/v3/api-docs/**"
         })
-public class AicyiAdminApplication {
+public class AdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AicyiAdminApplication.class, args);
+        SpringApplication.run(AdminApplication.class, args);
     }
 }

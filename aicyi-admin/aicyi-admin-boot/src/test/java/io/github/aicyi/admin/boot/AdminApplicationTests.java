@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * 应用上下文加载测试。
  */
 @SpringBootTest
-class AicyiAdminApplicationTests {
+class AdminApplicationTests {
 
     @Test
     void contextLoads() {

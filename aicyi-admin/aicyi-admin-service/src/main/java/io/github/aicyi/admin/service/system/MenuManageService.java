@@ -11,7 +11,6 @@ import io.github.aicyi.common.logging.LoggerFactory;
 import io.github.aicyi.common.model.BaseBean;
 import io.github.aicyi.common.model.BoBean;
 import io.github.aicyi.common.model.type.BooleanType;
-import io.github.aicyi.middleware.kit.util.IdUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -69,7 +68,6 @@ public class MenuManageService {
      * 新增菜单 / 按钮（顶级菜单 parentId=0）
      */
     public SysMenu add(SysMenu menu) {
-        menu.setId(IdUtils.generateId());
         menu.setBuiltin(BooleanType.FALSE);
         if (menu.getVisible() == null) {
             menu.setVisible(VisibleType.SHOW);

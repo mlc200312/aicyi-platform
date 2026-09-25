@@ -17,7 +17,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.github.aicyi.common.logging.Logger;
 import io.github.aicyi.common.logging.LoggerFactory;
 import io.github.aicyi.common.model.type.BooleanType;
-import io.github.aicyi.middleware.kit.util.IdUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -153,7 +152,6 @@ public class PermissionService {
                     continue;
                 }
                 SysUserPermission perm = new SysUserPermission();
-                perm.setId(IdUtils.generateId());
                 perm.setUserId(bo.getUserId());
                 perm.setPermCode(code.trim());
                 perm.setPermType(PermissionType.ADD);
@@ -166,7 +164,6 @@ public class PermissionService {
                     continue;
                 }
                 SysUserPermission perm = new SysUserPermission();
-                perm.setId(IdUtils.generateId());
                 perm.setUserId(bo.getUserId());
                 perm.setPermCode(code.trim());
                 perm.setPermType(PermissionType.REMOVE);

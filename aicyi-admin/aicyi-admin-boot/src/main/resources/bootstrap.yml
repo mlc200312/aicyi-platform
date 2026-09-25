@@ -20,9 +20,9 @@ spring:
         file-extension: yaml
         # 中间件连接由 Nacos 共享配置统一管理（datasource/redis/rabbitmq，各环境 namespace 内维护）
         shared-configs:
-          - data-id: aicyi-datasource.yml
-            group: DEFAULT_GROUP
-            refresh: true
+#          - data-id: aicyi-datasource.yml
+#            group: DEFAULT_GROUP
+#            refresh: true
           - data-id: aicyi-redis.yml
             group: DEFAULT_GROUP
             refresh: true
