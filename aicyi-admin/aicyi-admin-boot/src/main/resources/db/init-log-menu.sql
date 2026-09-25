@@ -17,7 +17,7 @@
 --   6. 执行方式：手动执行（需先指定库，如 USE aicyi_platform;）。
 -- =====================================================================
 
-USE aicyi_platform;
+USE aicyi_admin;
 
 -- 运行时变量：超级管理员角色 ID
 SET @super_role_id = (SELECT id FROM sys_role WHERE role_key = 'super_admin' AND deleted = 0 LIMIT 1);

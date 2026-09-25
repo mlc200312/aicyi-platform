@@ -26,7 +26,7 @@
 --      已存在记录，故第三节提供幂等 UPDATE / DELETE 修正。
 -- =====================================================================
 
-USE aicyi_platform;
+USE aicyi_admin;
 
 -- 运行时变量：超级管理员角色 ID
 SET @super_role_id = (SELECT id FROM sys_role WHERE role_key = 'super_admin' AND deleted = 0 LIMIT 1);
