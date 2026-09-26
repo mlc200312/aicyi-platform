@@ -20,7 +20,7 @@
 
     <modules>
         <module>aicyi-event</module>
-        <module>aicyi-admin</module>
+
         <module>aicyi-auth</module>
         <module>aicyi-gateway</module>
         <module>aicyi-log</module>
