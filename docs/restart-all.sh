@@ -4,7 +4,6 @@
 #
 #   覆盖服务（端口）：
 #     aicyi-auth           18090  认证授权中心
-#     aicyi-admin          18091  RBAC 权限管理微服务（替代单体承接 /api/system/**）
 #     aicyi-log          18092  审计日志（MQ 消费）
 #     aicyi-message      18093  消息通知（MQ 消费）
 #     aicyi-work-order   18094  工单中心
@@ -43,7 +42,6 @@ JAVA_BIN="${JAVA_BIN:-java}"
 # 顺序即启动顺序；停止时逆序。gateway 依赖下游注册但 lb 懒解析，置于后端最后。
 SERVICES=(
   "auth|18090|aicyi-platform/aicyi-auth|aicyi-platform/aicyi-auth/aicyi-auth-boot/target/aicyi-auth-boot-0.0.1-SNAPSHOT.jar|aicyi-auth-boot-.*\.jar"
-  "admin|18091|aicyi-platform/aicyi-admin|aicyi-platform/aicyi-admin/aicyi-admin-boot/target/aicyi-admin-boot-0.0.1-SNAPSHOT.jar|aicyi-admin-boot-.*\.jar"
   "log|18092|aicyi-platform/aicyi-log|aicyi-platform/aicyi-log/aicyi-log-boot/target/aicyi-log-boot-0.0.1-SNAPSHOT.jar|aicyi-log-boot-.*\.jar"
   "message|18093|aicyi-platform/aicyi-message|aicyi-platform/aicyi-message/aicyi-message-boot/target/aicyi-message-boot-0.0.1-SNAPSHOT.jar|aicyi-message-boot-.*\.jar"
   "work-order|18094|aicyi-platform/aicyi-work-order|aicyi-platform/aicyi-work-order/aicyi-work-order-boot/target/aicyi-work-order-boot-0.0.1-SNAPSHOT.jar|aicyi-work-order-boot-.*\.jar"
